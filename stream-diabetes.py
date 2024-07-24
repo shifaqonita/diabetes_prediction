@@ -1,48 +1,51 @@
 import pickle
 import streamlit as st
 
-# membaca model
+# Membaca model
 diabetes_model = pickle.load(open('22611028_diabetes_model.sav', 'rb'))
 
-#judul web
-st.title('Data Mining Prediksi Diabetes')
+# Judul web dengan warna
+st.markdown("<h1 style='text-align: center; color: #FF6347;'>Prediksi Diabetes</h1>", unsafe_allow_html=True)
 
-#membagi kolom
-col1, col2 = st.columns(2)
+# Menambahkan gambar header (opsional)
+# st.image('header_image.jpg', use_column_width=True)
 
-with col1 :
-    Pregnancies = st.text_input ('input nilai Pregnancies')
+# Deskripsi singkat dengan ukuran font kecil dan warna latar belakang
+st.markdown("""
+    <div style='background-color: #f0f8ff; padding: 10px; border-radius: 10px;'>
+    <p style='text-align: center; font-size: 14px;'>Aplikasi ini akan memprediksi kemungkinan seseorang terkena diabetes berdasarkan beberapa parameter medis. Silakan masukkan data pada kolom di bawah untuk melakukan prediksi.</p>
+    </div>
+    """, unsafe_allow_html=True)
 
-with col2 :
-    Glucose = st.text_input ('input nilai Glucose')
+# Mengatur layout dengan dua kolom
+with st.form(key='prediction_form'):
+    col1, col2 = st.columns(2)
 
-with col1 :
-    BloodPressure = st.text_input ('input nilai Blood Pressure')
+    with col1:
+        Pregnancies = st.number_input('Input nilai Pregnancies', min_value=0, max_value=20, step=1, format='%d')
+        Glucose = st.number_input('Input nilai Glucose', min_value=0, max_value=300, step=1, format='%d')
+        BloodPressure = st.number_input('Input nilai Blood Pressure', min_value=0, max_value=200, step=1, format='%d')
+        SkinThickness = st.number_input('Input nilai Skin Thickness', min_value=0, max_value=100, step=1, format='%d')
+        BMI = st.number_input('Input nilai BMI', min_value=0.0, max_value=70.0, step=0.1, format='%.1f')
 
-with col2 :
-    SkinThickness = st.text_input ('input nilai Skin Thickness')
+    with col2:
+        Insulin = st.number_input('Input nilai Insulin', min_value=0, max_value=1000, step=1, format='%d')
+        DiabetesPedigreeFunction = st.number_input('Input nilai Diabetes Pedigree Function', min_value=0.0, max_value=3.0, step=0.01, format='%.2f')
+        Age = st.number_input('Input nilai Age', min_value=0, max_value=120, step=1, format='%d')
 
-with col1 :
-    Insulin = st.text_input ('input nilai Insulin')
+    # Tombol untuk prediksi di luar kolom dengan warna
+    submit_button = st.form_submit_button('Test Prediksi Diabetes', type='primary')
 
-with col2 :
-    BMI = st.text_input ('input nilai BMI')
-
-with col1 :
-    DiabetesPedigreeFunction = st.text_input ('input nilai Diabetes Pedigree Function')
-
-with col2 :
-    Age = st.text_input ('input nilai Age')
-
-# code untuk prediksi
-diab_diagnosis = ''
-
-# membuat tombol untuk prediksi
-if st.button('Test Prediksi Diabetes'):
-    diab_prediction = diabetes_model.predict([[Pregnancies, Glucose, BloodPressure, SkinThickness, Insulin, BMI, DiabetesPedigreeFunction, Age]])
-
-    if(diab_prediction[0] == 1):
-        diab_diagnosis = 'Pasien terkena Diabetes'
-    else:
-        diab_diagnosis = 'Pasien tidak terkena Diabetes'
-st.success(diab_diagnosis)
+    if submit_button:
+        # Memeriksa jika semua input sudah benar
+        inputs = [Pregnancies, Glucose, BloodPressure, SkinThickness, Insulin, BMI, DiabetesPedigreeFunction, Age]
+        
+        # Prediksi
+        diab_prediction = diabetes_model.predict([inputs])
+        
+        if diab_prediction[0] == 1:
+            diab_diagnosis = 'Pasien terkena Diabetes'
+            st.error(diab_diagnosis, icon="🚨")
+        else:
+            diab_diagnosis = 'Pasien tidak terkena Diabetes'
+            st.success(diab_diagnosis, icon="✅")
