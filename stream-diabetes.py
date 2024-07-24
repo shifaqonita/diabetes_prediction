@@ -22,16 +22,16 @@ with st.form(key='prediction_form'):
     col1, col2 = st.columns(2)
 
     with col1:
-        Pregnancies = st.number_input('Input nilai Pregnancies', min_value=0, max_value=20, step=1, format='%d')
-        Glucose = st.number_input('Input nilai Glucose', min_value=0, max_value=300, step=1, format='%d')
-        BloodPressure = st.number_input('Input nilai Blood Pressure', min_value=0, max_value=200, step=1, format='%d')
-        SkinThickness = st.number_input('Input nilai Skin Thickness', min_value=0, max_value=100, step=1, format='%d')
+        Pregnancies = st.number_input('Jumlah Kehamilan', min_value=0, max_value=20, step=1, format='%d')
+        Glucose = st.number_input('Konsentrasi glukosa', min_value=0, max_value=300, step=1, format='%d')
+        BloodPressure = st.number_input('Tekanan darah diastolik', min_value=0, max_value=200, step=1, format='%d')
+        SkinThickness = st.number_input('Ketebalan lipatan kulit trisep', min_value=0, max_value=100, step=1, format='%d')
 
     with col2:
-        BMI = st.number_input('Input nilai BMI', min_value=0.0, max_value=70.0, step=0.1, format='%.1f')
-        Insulin = st.number_input('Input nilai Insulin', min_value=0, max_value=1000, step=1, format='%d')
-        DiabetesPedigreeFunction = st.number_input('Input nilai Diabetes Pedigree Function', min_value=0.0, max_value=3.0, step=0.01, format='%.2f')
-        Age = st.number_input('Input nilai Age', min_value=0, max_value=120, step=1, format='%d')
+        BMI = st.number_input('BMI', min_value=0.0, max_value=70.0, step=0.1, format='%.1f')
+        Insulin = st.number_input('Insulin', min_value=0, max_value=1000, step=1, format='%d')
+        DiabetesPedigreeFunction = st.number_input('Diabetes Pedigree Function', min_value=0.0, max_value=3.0, step=0.01, format='%.2f')
+        Age = st.number_input('Usia', min_value=0, max_value=120, step=1, format='%d')
 
     # Tombol untuk prediksi di luar kolom dengan warna
     submit_button = st.form_submit_button('Test Prediksi Diabetes', type='primary')
